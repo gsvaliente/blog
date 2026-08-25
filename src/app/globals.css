@@ -16,13 +16,11 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --muted-foreground: #9ca3af;
-    --border: #374151;
-  }
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --muted-foreground: #9ca3af;
+  --border: #374151;
 }
 
 body {

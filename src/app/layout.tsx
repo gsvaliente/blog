@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import { ThemeProvider } from "next-themes";
+import { ThemeToggle } from "./components/theme-toggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,26 +27,24 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <header className="border-b border-border/20 py-4">
-          <nav className="max-w-xl mx-auto px-6 flex items-center justify-between font-sans">
-            <Link href="/" className="text-lg font-bold tracking-tight">
-              Cloud Engineer Journey
-            </Link>
-            <Link
-              href="/blog"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Blog
-            </Link>
-          </nav>
-        </header>
-        <div className="flex-1">{children}</div>
-        <footer className="border-t border-border/20 py-6 text-center text-sm text-muted-foreground font-sans">
-          Built with Next.js &amp; deployed on AWS
-        </footer>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <header className="border-b border-border/20 py-4">
+            <nav className="max-w-xl mx-auto px-6 flex items-center justify-between font-sans">
+              <Link href="/" className="text-lg font-bold tracking-tight">
+                Cloud Engineer Journey
+              </Link>
+              <ThemeToggle />
+            </nav>
+          </header>
+          <div className="flex-1">{children}</div>
+          <footer className="border-t border-border/20 py-6 text-center text-sm text-muted-foreground font-sans">
+            Built with Next.js &amp; deployed on AWS
+          </footer>
+        </ThemeProvider>
       </body>
     </html>
   );
