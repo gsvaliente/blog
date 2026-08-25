@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="prose max-w-xl mx-auto py-16 font-sans">
+    <main className="prose max-w-3xl mx-auto py-16 font-sans">
       <h1 className="text-4xl font-bold tracking-tight mb-4">
         Cloud Engineer Journey
       </h1>

@@ -33,7 +33,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <header className="border-b border-border/20 py-4">
-            <nav className="max-w-xl mx-auto px-6 flex items-center justify-between font-sans">
+            <nav className="max-w-3xl mx-auto px-6 flex items-center justify-between font-sans">
               <Link href="/" className="text-lg font-bold tracking-tight">
                 Cloud Engineer Journey
               </Link>

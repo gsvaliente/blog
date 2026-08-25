@@ -33,7 +33,7 @@ export default async function BlogPostPage({
   const { title, date, tags } = post.data;
 
   return (
-    <article className="prose max-w-xl mx-auto py-8 font-sans">
+    <article className="prose max-w-3xl mx-auto py-8 font-sans">
       <header className="mb-6 border-b pb-6 border-border/20">
         <h1 className="text-3xl font-bold tracking-tight mb-2">{title}</h1>
         <p className="text-muted-foreground text-lg">

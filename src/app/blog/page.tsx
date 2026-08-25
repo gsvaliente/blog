@@ -26,7 +26,7 @@ export default function BlogIndexPage() {
   const posts = getPosts();
 
   return (
-    <main className="prose max-w-xl mx-auto py-8 font-sans">
+    <main className="prose max-w-3xl mx-auto py-8 font-sans">
       <h1 className="text-3xl font-bold tracking-tight mb-6">Blog</h1>
 
       <nav className="mb-8" aria-label="Blog navigation">
