@@ -1,7 +1,7 @@
 "use client"
 
-import Link from "next/link"
 import { useMemo, useState } from "react"
+import BlogCard from "./blog-card"
 
 type BlogPost = {
   title: string
@@ -83,36 +83,14 @@ export default function BlogFilters({ posts }: { posts: BlogPost[] }) {
       {filteredPosts.length > 0 ? (
         <ul className="grid gap-5 sm:grid-cols-2">
           {visiblePosts.map((post) => (
-            <li
+            <BlogCard
               key={post.slug}
-              className="group flex flex-col rounded-2xl border border-border/60 bg-foreground/[0.02] p-6 transition-all hover:-translate-y-1 hover:border-foreground/30 hover:bg-foreground/[0.05] hover:shadow-lg"
-            >
-              <div className="mb-5 flex items-center justify-between gap-4 text-sm text-muted-foreground">
-                <time dateTime={post.date}>{post.date}</time>
-                <span>{post.tags.length} topics</span>
-              </div>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="mb-4 text-xl font-semibold leading-snug text-foreground transition-colors group-hover:text-muted-foreground"
-              >
-                {post.title}
-              </Link>
-              <div className="mt-auto flex flex-wrap gap-2 pt-4">
-                {post.tags.map((tag) => (
-                  <button
-                    key={tag}
-                    type="button"
-                    onClick={() => {
-                      setSelectedTag(tag)
-                      setCurrentPage(1)
-                    }}
-                    className="rounded-full bg-foreground/10 px-3 py-1 text-xs font-medium text-foreground/75 transition-colors hover:bg-foreground/20"
-                  >
-                    #{tag}
-                  </button>
-                ))}
-              </div>
-            </li>
+              post={post}
+              onTagSelect={(tag) => {
+                setSelectedTag(tag)
+                setCurrentPage(1)
+              }}
+            />
           ))}
         </ul>
       ) : (
