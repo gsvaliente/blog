@@ -1,37 +1,37 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { useMemo, useState } from "react";
+import Link from "next/link"
+import { useMemo, useState } from "react"
 
 type BlogPost = {
-  title: string;
-  date: string;
-  tags: string[];
-  slug: string;
-};
+  title: string
+  date: string
+  tags: string[]
+  slug: string
+}
 
-type SortOrder = "newest" | "oldest";
+type SortOrder = "newest" | "oldest"
 
 export default function BlogFilters({ posts }: { posts: BlogPost[] }) {
-  const [sortOrder, setSortOrder] = useState<SortOrder>("newest");
-  const [selectedTag, setSelectedTag] = useState("all");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("newest")
+  const [selectedTag, setSelectedTag] = useState("all")
 
   const tags = useMemo(
     () => Array.from(new Set(posts.flatMap((post) => post.tags))).sort(),
-    [posts],
-  );
+    [posts]
+  )
 
   const filteredPosts = useMemo(() => {
     return posts
       .filter(
-        (post) => selectedTag === "all" || post.tags.includes(selectedTag),
+        (post) => selectedTag === "all" || post.tags.includes(selectedTag)
       )
       .sort((a, b) => {
         const difference =
-          new Date(a.date).getTime() - new Date(b.date).getTime();
-        return sortOrder === "newest" ? -difference : difference;
-      });
-  }, [posts, selectedTag, sortOrder]);
+          new Date(a.date).getTime() - new Date(b.date).getTime()
+        return sortOrder === "newest" ? -difference : difference
+      })
+  }, [posts, selectedTag, sortOrder])
 
   return (
     <section aria-label="Filter blog posts">
@@ -56,13 +56,11 @@ export default function BlogFilters({ posts }: { posts: BlogPost[] }) {
           Sort by date
           <select
             value={sortOrder}
-            onChange={(event) =>
-              setSortOrder(event.target.value as SortOrder)
-            }
+            onChange={(event) => setSortOrder(event.target.value as SortOrder)}
             className="rounded-lg border border-border bg-background px-3 py-2 font-normal text-foreground outline-none focus:border-foreground/50"
           >
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
           </select>
         </label>
       </div>
@@ -106,8 +104,9 @@ export default function BlogFilters({ posts }: { posts: BlogPost[] }) {
       )}
 
       <p className="mt-10 text-sm text-muted-foreground">
-        {filteredPosts.length} {filteredPosts.length === 1 ? "post" : "posts"} shown
+        {filteredPosts.length} {filteredPosts.length === 1 ? "post" : "posts"}{" "}
+        shown
       </p>
     </section>
-  );
+  )
 }
