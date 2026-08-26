@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import Link from "next/link";
+import BlogFilters from "../components/blog-filters";
 
 const postsDirectory = path.join(process.cwd(), "src", "posts");
 
@@ -40,41 +40,7 @@ export default function BlogIndexPage() {
         </p>
       </header>
 
-      <nav aria-label="Blog navigation">
-        <ul className="grid gap-5 sm:grid-cols-2">
-          {posts.map((post) => (
-            <li
-              key={post.slug}
-              className="group flex flex-col rounded-2xl border border-border/60 bg-foreground/[0.02] p-6 transition-all hover:-translate-y-1 hover:border-foreground/30 hover:bg-foreground/[0.05] hover:shadow-lg"
-            >
-              <div className="mb-5 flex items-center justify-between gap-4 text-sm text-muted-foreground">
-                <time dateTime={post.date}>{post.date}</time>
-                <span>{post.tags?.length ?? 0} topics</span>
-              </div>
-              <Link
-                href={`/blog/${post.slug}`}
-                className="mb-4 text-xl font-semibold leading-snug text-foreground transition-colors group-hover:text-muted-foreground"
-              >
-                {post.title}
-              </Link>
-              <div className="mt-auto flex flex-wrap gap-2 pt-4">
-                {post.tags?.map((tag: string) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-foreground/10 px-3 py-1 text-xs font-medium text-foreground/75"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      <p className="mt-10 text-sm text-muted-foreground">
-        {posts.length} {posts.length === 1 ? "post" : "posts"} published
-      </p>
+      <BlogFilters posts={posts} />
     </main>
   );
 }
