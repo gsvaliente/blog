@@ -19,7 +19,10 @@ async function getPost(slug: string) {
   if (!fs.existsSync(filePath)) return null;
   const fileContents = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(fileContents);
-  const htmlContent = await markdownToHtml(content);
+  // The page header already renders the post title, so avoid showing a
+  // duplicate H1 when the Markdown file starts with one.
+  const contentWithoutTitle = content.replace(/^(?:\s*\r?\n)*#\s+.*(?:\r?\n)+/, "");
+  const htmlContent = await markdownToHtml(contentWithoutTitle);
   return { data, content: htmlContent };
 }
 
@@ -43,29 +46,41 @@ export default async function BlogPostPage({
   const { title, date, tags } = post.data;
 
   return (
-    <article className="prose dark:prose-invert max-w-3xl mx-auto py-8 font-sans">
-      <Link href="/blog" className="text-sm text-muted-foreground hover:text-foreground transition-colors mb-4 inline-flex items-center gap-1">
-        &larr; All posts
+    <article className="mx-auto max-w-3xl px-6 py-10 font-sans text-foreground sm:py-14">
+      <Link
+        href="/blog"
+        className="mb-10 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+      >
+        <span aria-hidden="true">←</span> All posts
       </Link>
-      <header className="mb-6 border-b pb-6 border-border/20">
-        <h1 className="text-3xl font-bold tracking-tight mb-2">{title}</h1>
-        <p className="text-muted-foreground text-lg">
-          {date}{" "}
-          {tags?.length > 0 && (
-            <span className="ml-2">
-              {tags.map((tag: string) => (
-                <span key={tag} className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium">
-                  #{tag}
-                </span>
-              ))}
-            </span>
-          )}
+      <header className="mb-10 border-b border-border/60 pb-10">
+        <p className="mb-4 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          Cloud engineering notes
         </p>
+        <h1 className="mb-5 text-4xl font-bold tracking-tight text-foreground sm:text-5xl sm:leading-tight">
+          {title}
+        </h1>
+        <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+          <time dateTime={date}>{date}</time>
+          <span aria-hidden="true">·</span>
+          <span>{tags?.length ?? 0} topics</span>
+          {tags?.map((tag: string) => (
+            <span
+              key={tag}
+              className="rounded-full bg-foreground/10 px-3 py-1 text-xs font-medium text-foreground/75"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
       </header>
 
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div
+        className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground/85 prose-strong:text-foreground prose-a:text-foreground prose-a:underline-offset-4 prose-code:text-foreground"
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
 
-      <footer className="mt-8 pt-6 border-t border-border/20">
+      <footer className="mt-14 border-t border-border/60 pt-6">
         <p className="text-sm text-muted-foreground">
           Originally published on {date}
         </p>
