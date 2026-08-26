@@ -26,37 +26,54 @@ export default function BlogIndexPage() {
   const posts = getPosts();
 
   return (
-    <main className="prose max-w-3xl mx-auto py-8 font-sans">
-      <h1 className="text-3xl font-bold tracking-tight mb-6">Blog</h1>
+    <main className="mx-auto max-w-4xl px-6 py-14 font-sans text-foreground sm:py-20">
+      <header className="mb-12 max-w-2xl">
+        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+          Notes from the cloud
+        </p>
+        <h1 className="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+          Blog
+        </h1>
+        <p className="text-lg leading-8 text-muted-foreground">
+          Lessons, experiments, and practical notes from my journey into cloud
+          engineering.
+        </p>
+      </header>
 
-      <nav className="mb-8" aria-label="Blog navigation">
-        <ul className="space-y-4">
+      <nav aria-label="Blog navigation">
+        <ul className="grid gap-5 sm:grid-cols-2">
           {posts.map((post) => (
-            <li key={post.slug} className="border-b pb-4 border-border/20 last:border-0">
+            <li
+              key={post.slug}
+              className="group flex flex-col rounded-2xl border border-border/60 bg-foreground/[0.02] p-6 transition-all hover:-translate-y-1 hover:border-foreground/30 hover:bg-foreground/[0.05] hover:shadow-lg"
+            >
+              <div className="mb-5 flex items-center justify-between gap-4 text-sm text-muted-foreground">
+                <time dateTime={post.date}>{post.date}</time>
+                <span>{post.tags?.length ?? 0} topics</span>
+              </div>
               <Link
                 href={`/blog/${post.slug}`}
-                className="text-lg hover:text-primary transition-colors"
+                className="mb-4 text-xl font-semibold leading-snug text-foreground transition-colors group-hover:text-muted-foreground"
               >
                 {post.title}
               </Link>
-              <p className="text-sm text-muted-foreground mt-1">
-                {post.date}
-              </p>
-              <p className="text-xs text-muted-foreground mt-0.5">
-                {post.tags?.length > 0 &&
-                  post.tags.map((tag: string) => (
-                    <span key={tag} className="mx-1">
-                      #{tag}
-                    </span>
-                  ))}
-              </p>
+              <div className="mt-auto flex flex-wrap gap-2 pt-4">
+                {post.tags?.map((tag: string) => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-foreground/10 px-3 py-1 text-xs font-medium text-foreground/75"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
             </li>
           ))}
         </ul>
       </nav>
 
-      <p className="text-sm text-muted-foreground">
-        Total posts: {posts.length}
+      <p className="mt-10 text-sm text-muted-foreground">
+        {posts.length} {posts.length === 1 ? "post" : "posts"} published
       </p>
     </main>
   );
