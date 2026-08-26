@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cloud Engineer Journey
 
-## Getting Started
+A personal learning journal and hands-on record of my journey toward becoming a cloud and DevOps engineer.
 
-First, run the development server:
+This is a deliberately simple blog where I document what I learn, the projects I build, the mistakes I make, and the lessons I take away while working with AWS, infrastructure, automation, and software delivery.
+
+## What this project is for
+
+- Capture practical notes from my cloud and DevOps learning path
+- Share experiments, tutorials, and project retrospectives
+- Track progress with AWS, Linux, networking, containers, Terraform, CI/CD, and observability
+- Build and improve a real application while learning how to operate it
+
+## Current features
+
+- Next.js App Router application
+- Markdown-based posts stored in [`src/posts`](./src/posts)
+- Frontmatter metadata for titles, dates, tags, and descriptions
+- Blog index with posts sorted by publication date
+- Static routes generated for each post
+- GitHub-Flavored Markdown rendering
+- Light and dark theme support
+- Responsive, minimal interface styled with Tailwind CSS
+
+## Tech stack
+
+- [Next.js](https://nextjs.org/) 16
+- [React](https://react.dev/) 19
+- TypeScript
+- Tailwind CSS
+- Markdown, [`gray-matter`](https://github.com/jonschlinkert/gray-matter), and `remark`
+- AWS deployment and operations as part of the learning journey
+
+## Getting started
+
+### Prerequisites
+
+- Node.js (an LTS version is recommended)
+- npm
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Start the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Other commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint      # Run ESLint
+npm run build     # Create a production build
+npm run start     # Start the production server locally
+```
 
-## Learn More
+## Writing a post
 
-To learn more about Next.js, take a look at the following resources:
+Create a Markdown file in `src/posts`. The filename becomes the post slug. For example, `src/posts/my-first-post.md` is available at `/blog/my-first-post`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Add frontmatter at the top of the file:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```md
+---
+title: "My First Post"
+date: "2026-01-20"
+tags: [aws, devops]
+description: "What I learned while building my first project."
+---
 
-## Deploy on Vercel
+# My First Post
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Write the post here using Markdown.
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Existing examples include:
+
+- [AWS S3 basics](./src/posts/aws-s3-basics.md)
+- [Terraform](./src/posts/terraform.md)
+- [Hello World](./src/posts/hello-world.md)
+
+## Project structure
+
+```text
+src/
+├── app/
+│   ├── page.tsx              # Home page
+│   ├── blog/page.tsx         # Post listing
+│   ├── blog/[slug]/page.tsx  # Individual post page
+│   └── components/            # Shared UI components
+└── posts/                     # Markdown blog posts
+```
+
+## Learning and infrastructure roadmap
+
+The blog will evolve alongside my skills. Planned areas include:
+
+- Hosting the application with AWS
+- Infrastructure as Code with Terraform
+- CI/CD with GitHub Actions and AWS services
+- Domain, DNS, TLS, and caching
+- Logging, monitoring, and alerting
+- Security, IAM, backups, and cost management
+- Containerization and additional deployment patterns
+
+The AWS architecture is intentionally being developed as part of the learning process rather than treated as a finished system. Deployment details will be added here as they are implemented.
+
+## Status
+
+This project is an active learning project. The application is basic by design; the content, infrastructure, and engineering practices will grow over time.
+
+## License
+
+This project is a personal learning journal. Unless stated otherwise, the written content is © the author.
