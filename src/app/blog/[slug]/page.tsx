@@ -2,15 +2,22 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
-import html from "remark-html";
 import gfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeHighlight from "rehype-highlight";
+import rehypeStringify from "rehype-stringify";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const postsDirectory = path.join(process.cwd(), "src", "posts");
 
 async function markdownToHtml(markdown: string) {
-  const result = await remark().use(gfm).use(html).process(markdown);
+  const result = await remark()
+    .use(gfm)
+    .use(remarkRehype)
+    .use(rehypeHighlight)
+    .use(rehypeStringify)
+    .process(markdown);
   return result.toString();
 }
 
