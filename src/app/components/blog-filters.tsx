@@ -17,6 +17,7 @@ const POSTS_PER_PAGE = 10
 export default function BlogFilters({ posts }: { posts: BlogPost[] }) {
   const [sortOrder, setSortOrder] = useState<SortOrder>("newest")
   const [selectedTag, setSelectedTag] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
 
   const tags = useMemo(
@@ -26,15 +27,21 @@ export default function BlogFilters({ posts }: { posts: BlogPost[] }) {
 
   const filteredPosts = useMemo(() => {
     return posts
-      .filter(
-        (post) => selectedTag === "all" || post.tags.includes(selectedTag)
-      )
+      .filter((post) => {
+        const matchesTag =
+          selectedTag === "all" || post.tags.includes(selectedTag)
+        const matchesTitle = post.title
+          .toLowerCase()
+          .includes(searchQuery.trim().toLowerCase())
+
+        return matchesTag && matchesTitle
+      })
       .sort((a, b) => {
         const difference =
           new Date(a.date).getTime() - new Date(b.date).getTime()
         return sortOrder === "newest" ? -difference : difference
       })
-  }, [posts, selectedTag, sortOrder])
+  }, [posts, searchQuery, selectedTag, sortOrder])
 
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE)
   const visiblePosts = filteredPosts.slice(
@@ -45,6 +52,21 @@ export default function BlogFilters({ posts }: { posts: BlogPost[] }) {
   return (
     <section aria-label="Filter blog posts">
       <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-border/60 bg-foreground/[0.02] p-4 sm:flex-row sm:items-end sm:justify-between">
+        <label className="flex flex-1 flex-col gap-2 text-sm font-medium text-foreground">
+          Search by title
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(event) => {
+              setSearchQuery(event.target.value)
+              setCurrentPage(1)
+            }}
+            placeholder="Search posts..."
+            aria-label="Search blog posts by title"
+            className="rounded-lg border border-border bg-background px-3 py-2 font-normal text-foreground outline-none placeholder:text-muted-foreground focus:border-foreground/50"
+          />
+        </label>
+
         <label className="flex flex-1 flex-col gap-2 text-sm font-medium text-foreground">
           Filter by topic
           <select
