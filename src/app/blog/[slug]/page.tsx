@@ -8,6 +8,7 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeStringify from "rehype-stringify";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getReadingTime } from "../../../lib/read-time";
 
 const postsDirectory = path.join(process.cwd(), "src", "posts");
 
@@ -30,7 +31,7 @@ async function getPost(slug: string) {
   // duplicate H1 when the Markdown file starts with one.
   const contentWithoutTitle = content.replace(/^(?:\s*\r?\n)*#\s+.*(?:\r?\n)+/, "");
   const htmlContent = await markdownToHtml(contentWithoutTitle);
-  return { data, content: htmlContent };
+  return { data, content: htmlContent, readingTime: getReadingTime(contentWithoutTitle) };
 }
 
 export function generateStaticParams() {
@@ -70,7 +71,7 @@ export default async function BlogPostPage({
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <time dateTime={date}>{date}</time>
           <span aria-hidden="true">·</span>
-          <span>{tags?.length ?? 0} topics</span>
+          <span>{post.readingTime} min read</span>
           {tags?.map((tag: string) => (
             <span
               key={tag}

@@ -5,6 +5,7 @@ type BlogPost = {
   date: string
   tags: string[]
   slug: string
+  readingTime: number
 }
 
 type BlogCardProps = {
@@ -22,7 +23,7 @@ export default function BlogCard({ post, onTagSelect }: BlogCardProps) {
       />
       <div className="pointer-events-none mb-5 flex items-center justify-between gap-4 text-sm text-muted-foreground">
         <time dateTime={post.date}>{post.date}</time>
-        <span>{post.tags.length} topics</span>
+        <span>{post.readingTime} min read</span>
       </div>
       <h2 className="pointer-events-none mb-4 text-xl font-semibold leading-snug text-foreground transition-colors group-hover:text-muted-foreground">
         {post.title}

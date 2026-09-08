@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import BlogFilters from "../components/blog-filters";
+import { getReadingTime } from "../../lib/read-time";
 
 const postsDirectory = path.join(process.cwd(), "src", "posts");
 
@@ -10,11 +11,12 @@ function getPosts() {
   const posts = files.map((file) => {
     const filePath = path.join(postsDirectory, file);
     const fileContents = fs.readFileSync(filePath, "utf8");
-    const { data } = matter(fileContents);
+    const { data, content } = matter(fileContents);
     return {
       title: data.title,
       date: data.date,
       tags: data.tags,
+      readingTime: getReadingTime(content),
       slug: file.replace(".md", ""),
     };
   });

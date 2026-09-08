@@ -8,6 +8,7 @@ type BlogPost = {
   date: string
   tags: string[]
   slug: string
+  readingTime: number
 }
 
 type SortOrder = "newest" | "oldest"
