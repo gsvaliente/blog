@@ -1,10 +1,28 @@
+import type { Metadata } from "next";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import BlogFilters from "../components/blog-filters";
 import { getReadingTime } from "../../lib/read-time";
 
+const siteUrl = "https://cloudengineerjourney.dev";
 const postsDirectory = path.join(process.cwd(), "src", "posts");
+
+export const metadata: Metadata = {
+  title: "Blog | Cloud Engineer Journey",
+  description:
+    "Lessons, experiments, and practical notes from my journey into cloud engineering — AWS, Kubernetes, Terraform, and more.",
+  alternates: {
+    canonical: `${siteUrl}/blog`,
+  },
+  openGraph: {
+    type: "website",
+    title: "Blog | Cloud Engineer Journey",
+    description:
+      "Lessons, experiments, and practical notes from my journey into cloud engineering — AWS, Kubernetes, Terraform, and more.",
+    url: `${siteUrl}/blog`,
+  },
+};
 
 function getPosts() {
   const files = fs.readdirSync(postsDirectory).filter((f) => f.endsWith(".md"));
