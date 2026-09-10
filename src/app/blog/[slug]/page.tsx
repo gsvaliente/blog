@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -34,11 +35,69 @@ async function getPost(slug: string) {
   return { data, content: htmlContent, readingTime: getReadingTime(contentWithoutTitle) };
 }
 
+const siteUrl = "https://cloudengineerjourney.dev";
+
 export function generateStaticParams() {
   const files = fs.readdirSync(postsDirectory).filter((f) => f.endsWith(".md"));
   return files.map((file) => ({
     slug: file.replace(".md", ""),
   }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
+
+  if (!post) {
+    return {
+      title: "Post Not Found",
+      robots: { index: false },
+    };
+  }
+
+  const { title, date, tags, description } = post.data;
+  const canonicalUrl = `${siteUrl}/blog/${slug}`;
+  const publishedDate = new Date(date).toISOString();
+  const ogImageUrl = `${siteUrl}/api/og?title=${encodeURIComponent(title)}&date=${encodeURIComponent(date)}&tags=${encodeURIComponent((tags || []).join(","))}`;
+
+  return {
+    title: `${title} | Cloud Engineer Journey`,
+    description: description || `Read about ${title} on Cloud Engineer Journey`,
+    keywords: tags,
+    authors: [{ name: "Gabriel Voliente" }],
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      type: "article",
+      title,
+      description: description || `Read about ${title} on Cloud Engineer Journey`,
+      url: canonicalUrl,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      publishedTime: publishedDate,
+      modifiedTime: publishedDate,
+      section: "Cloud Engineering",
+      tags: tags || [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description: description || `Read about ${title} on Cloud Engineer Journey`,
+      images: [ogImageUrl],
+      creator: "@gabrielv_dev",
+    },
+  };
 }
 
 export default async function BlogPostPage({
@@ -54,7 +113,9 @@ export default async function BlogPostPage({
   const { title, date, tags } = post.data;
 
   return (
-    <article className="mx-auto max-w-3xl px-6 py-10 font-sans text-foreground sm:py-14">
+    <article
+      className="mx-auto max-w-3xl px-6 py-10 font-sans text-foreground sm:py-14"
+    >
       <Link
         href="/blog"
         className="mb-10 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
