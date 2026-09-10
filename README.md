@@ -16,10 +16,14 @@ This is a deliberately simple blog where I document what I learn, the projects I
 - Next.js App Router application
 - Markdown-based posts stored in [`src/posts`](./src/posts)
 - Frontmatter metadata for titles, dates, tags, and descriptions
-- Blog index with posts sorted by publication date
+- Blog index with full-text search by title, tag filtering, and sort order
+- Pagination on the blog listing page
+- Reading time estimates per post
 - Static routes generated for each post
-- GitHub-Flavored Markdown rendering
-- Light and dark theme support
+- GitHub-Flavored Markdown rendering with syntax-highlighted code blocks
+- Light and dark theme support (system-aware via `next-themes`)
+- Custom 404 page
+- Open Graph and Twitter card metadata with dynamic OG image generation
 - Responsive, minimal interface styled with Tailwind CSS
 
 ## Tech stack
@@ -28,8 +32,12 @@ This is a deliberately simple blog where I document what I learn, the projects I
 - [React](https://react.dev/) 19
 - TypeScript
 - Tailwind CSS
-- Markdown, [`gray-matter`](https://github.com/jonschlinkert/gray-matter), and `remark`
+- Markdown, [`gray-matter`](https://github.com/jonschlinkert/gray-matter), `remark`, and rehype plugins
 - AWS deployment and operations as part of the learning journey
+
+### SEO & metadata
+
+Each post includes canonical URLs, Open Graph cards, Twitter summaries, author attribution (`Gabriel Voliente`), and a dynamic OG image generator at `/api/og`. The homepage and blog listing also carry their own metadata.
 
 ## Getting started
 
@@ -81,9 +89,11 @@ Write the post here using Markdown.
 
 Existing examples include:
 
-- [AWS S3 basics](./src/posts/aws-s3-basics.md)
+- [Hello World: Starting My Cloud Engineer Journey](./src/posts/hello-world.md)
+- [AWS S3 Basics](./src/posts/aws-s3-basics.md)
+- [Input-Output Pipes](./src/posts/input-output-pipes.md)
+- [Linux Permissions](./src/posts/linux-permissions.md)
 - [Terraform](./src/posts/terraform.md)
-- [Hello World](./src/posts/hello-world.md)
 
 ## Project structure
 
