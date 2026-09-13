@@ -114,7 +114,7 @@ export default async function BlogPostPage({
 
   return (
     <article
-      className="mx-auto max-w-3xl px-6 py-10 font-sans text-foreground sm:py-14"
+      className="mx-auto max-w-6xl px-6 py-10 font-sans text-foreground sm:py-14"
     >
       <Link
         href="/blog"
