@@ -1,74 +1,109 @@
 ---
-title: "Input - Output - Pipes"
+title: "stdin, stdout, and pipes: mastering the Linux command line"
 date: "2026-08-28"
 tags: ["linux", "beginner", "cli"]
-description: "We explore what stdin, stdout, stderr and pipes in the Linux CLI"
+description: "How stdin, stdout, stderr, and pipes work in the Linux command line"
 ---
 
-When typing in the console most commands can have one of the following three "options"
-When using the `|` (pipe), we can translate the output of a command into the input of another one.
+# stdin, stdout, and pipes: mastering the Linux command line
 
-example:
-`cat /etc/passwd | wc -l`
-This would print the file, but instead of printing, you use that as a way to count how many lines the car would bring out
+Every command in the Linux console works with three standard streams:
 
-- Standard Input
-- Standard Output
-- Standard Error
+- **Standard Input (stdin)**: the data a command reads, usually from your keyboard or from another command.
+- **Standard Output (stdout)**: the data a command prints to the terminal.
+- **Standard Error (stderr)**: the error messages a command prints to the terminal.
 
-## Redirectes
+By default, commands read from stdin and write to stdout. The real power comes from connecting commands together: using the `|` (pipe) operator, we can translate the stdout of one command into the stdin of another.
 
-#### Overwrite
+For example:
 
-When we want to overwrite a file without having to enter a text editor we use
-`echo "Line 1" > test-file.txt`
-the `>` is the redirect symbol
+```bash
+cat /etc/passwd | wc -l
+```
 
-#### Append
+Without the pipe, `cat` would print the whole file to the terminal. With the pipe, the output is fed into `wc -l`, which counts how many lines the file has.
 
-When we want to append we use the `>>`
-`echo "Line 2" >> test-file.txt`
+## Redirects
 
-This would add a second line with "Line 2"
+When we want a command to write to a file instead of the terminal, we use redirection.
 
-#### Error Redirect
+### Overwrite
 
-When we want to append or overwrite what the stderr is giving we can use the
-`2>` or `2>>`
-for example:
-`ls /non-existent 2> error.log`
+To overwrite a file without having to enter a text editor, we use a single `>`:
 
-#### Combination of Redirects
+```bash
+echo "Line 1" > test-file.txt
+```
 
-If we want to catch both stdout and stderr we can use the `&>`
-example:
-`ls /non-existent &> all-logs.log`
+Here `>` is the redirect symbol: it sends stdout to `test-file.txt`, replacing anything that was already there.
 
-So this catches both the good and the bad
+### Append
 
-We can also separate them if we want to save them to different files
-`ls /non-existent > good-log.log 2> bad-log.log`
+To append to a file instead of replacing it, we use `>>`:
+
+```bash
+echo "Line 2" >> test-file.txt
+```
+
+This adds a second line, `Line 2`, to the end of the file.
+
+### Error Redirect
+
+To redirect what stderr produces, we use `2>` (overwrite) or `2>>` (append):
+
+```bash
+ls /non-existent 2> error.log
+```
+
+The error message is written to `error.log` while anything else still prints to the terminal.
+
+### Combining Redirects
+
+If we want to catch both stdout and stderr in the same file, we use `&>`:
+
+```bash
+ls /non-existent &> all-logs.log
+```
+
+This captures both the good output and the bad.
+
+We can also save them to different files:
+
+```bash
+ls /non-existent > good-log.log 2> bad-log.log
+```
 
 ## Pipes
 
-To combine multiple commands we use the `|`
-Example:
-`ls /etc/ | wc -l`: this will count how many files are in the /etc/ directory
-`du -sh /Downloads/* | sort -h`: this will tell us the size of each file inside of the Downloads directory and sort it
+To combine multiple commands, we use the `|` operator:
+
+```bash
+ls /etc/ | wc -l
+```
+
+This counts how many files are in the `/etc/` directory.
+
+```bash
+du -sh /Downloads/* | sort -h
+```
+
+This tells us the size of each file inside the Downloads directory and sorts the list.
 
 ## Sort
 
-We can use the sort command to... sort.
-By default it goes from smallest to largest but we can use the `-r` flag and reverse it
+We can use the `sort` command to... sort. By default it goes from smallest to largest, but we can use the `-r` flag to reverse it.
 
 ## Uniq
 
-This is similar to sort, but it removes the duplicates that might be found
-To be used properly we need to sort first then uniq
-Example:
-`sort names.txt | uniq`: this will remove any duplicates after the list is sorted
+`uniq` is similar to `sort`, but it removes duplicate lines that might be found. To use it properly, we need to sort first and then run `uniq`:
 
-One very useful thing to add is the `-c` flag, which will count how many occurances something has
+```bash
+sort names.txt | uniq
+```
+
+This removes any duplicates after the list is sorted.
+
+A very useful addition is the `-c` flag, which counts how many occurrences of each line there are. Given a file like:
 
 ```txt
 Charlie
@@ -79,8 +114,7 @@ Bob
 Alice
 ```
 
-If this is the file, we run the:
-`sort names.txt | uniq -c` we will get the following output
+running `sort names.txt | uniq -c` produces the following output:
 
 ```bash
 3 Alice
@@ -90,25 +124,22 @@ If this is the file, we run the:
 
 ## Xargs
 
-When we want to use the result of a first command, and run another command to those things
+Sometimes we want to take the result of one command and run another command on each of those items.
 
-For example if we cant to remove many files at once we can run the
+For example, if we want to remove many files at once, we can run:
 
-````bash
 ```bash
-  ls /sample-dir | xargs rm
-````
+ls /sample-dir | xargs rm
+```
 
-This translates to rm item1, item2, item3
+This translates to `rm item1, item2, item3` on each file that `ls` returned.
 
-#### Why is it useful?
+### Why is it useful?
 
-When we have a list of things that one command gives, we can use xargs to modify one by one this list
-
-example:
+When one command gives us a list of things, we can use `xargs` to work through the list one item at a time. For example:
 
 ```bash
 grep -l "TODO" *.js | xargs rm
 ```
 
-This will delete all of the .js files.
+This deletes all of the `.js` files that contain `TODO`.

@@ -1,33 +1,33 @@
 ---
-title: "Linux Permission Introduction"
+title: "Linux Permissions: users, groups, and file access"
 date: "2026-08-26"
 tags: ["linux", "beginner", "security"]
-description: "We explore how permissions work in Linux. From who can access each thing to how to change owners"
+description: "How permissions work in Linux, from who can access each file to how to change ownership"
 ---
 
-Not everyone has the same access to do things through the Linux machine
+# Linux Permissions: users, groups, and file access
 
-The information regarding users and their Ids, groups, home directory etc is located in
-`/etc/passwd`
-There are no passwords located here, for that go to `etc/shadow`
+Not everyone has the same access to do things on a Linux machine. Each user has an identity, belongs to one or more groups, and is granted access to files accordingly.
 
-### Useful Information
+The information about users — their IDs, groups, home directory, and more — is located in `/etc/passwd`. There are no passwords located here; for that, go to `/etc/shadow`.
 
-- `id`: prints the info of the current user
-- `whoami`: prints the username
-- `w`: prints the running users and its instances like who is logged in
-- `groups`: prints the groups the user belongs too
+## Useful Commands
 
-### User Manipulation
+- `id`: prints the information of the current user.
+- `whoami`: prints the current username.
+- `w`: prints who is logged in and what they are running.
+- `groups`: prints the groups the current user belongs to.
 
-- `sudo adduser newuser`: creates a new user
-- `sudo deluser newuser`: deletes the user, but does not delete the home directory
-- `sudo deluser --remove-home`: deletes the user and home directory
+## User Manipulation
+
+- `sudo adduser newuser`: creates a new user.
+- `sudo deluser newuser`: deletes the user, but does not delete the home directory.
+- `sudo deluser --remove-home`: deletes the user and the home directory.
 
 ## File Permissions
 
-Since everything can be considered a file in Linux, everything has certain restrictions on who can Read, Write and eXecture it.
+In Linux, everything can be considered a file, and every file has restrictions on who can read, write, and execute it.
 
-- `chmod`: is used to change those permissions
-- `chown`: is used to change ownership
-- `chgrp`: is used to change group
+- `chmod`: changes those permissions.
+- `chown`: changes ownership.
+- `chgrp`: changes the owning group.
