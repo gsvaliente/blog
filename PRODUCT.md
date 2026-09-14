@@ -8,7 +8,7 @@ web
 
 ## Users
 
-Gabriel Voliente, a developer transitioning into cloud and DevOps engineering. Secondary audience includes peers, potential employers, and others on similar learning paths who benefit from seeing authentic progress, mistakes, and hard-won lessons.
+Gabriel Valiente, a developer transitioning into cloud and DevOps engineering. Secondary audience includes peers, potential employers, and others on similar learning paths who benefit from seeing authentic progress, mistakes, and hard-won lessons.
 
 ## Product Purpose
 
@@ -35,7 +35,7 @@ Building in public as a deliberate practice. The blog's value is not polished ex
 - Pagination on the blog index
 - Custom OG image generator at `/api/og`
 - SEO metadata: canonical URLs, Open Graph cards, Twitter summaries
-- Author attribution: Gabriel Voliente
+- Author attribution: Gabriel Valiente
 - No authentication, comments, or user accounts
 - Production deployment (AWS via Terraform + CI/CD) is on the roadmap but not yet shipped
 - No analytics or tracking implemented

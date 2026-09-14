@@ -16,13 +16,15 @@ This is a deliberately simple blog where I document what I learn, the projects I
 - Next.js App Router application
 - Markdown-based posts stored in [`src/posts`](./src/posts)
 - Frontmatter metadata for titles, dates, tags, and descriptions
-- Blog index with full-text search by title, tag filtering, and sort order
-- Pagination on the blog listing page
+- Blog index with client-side full-text search across title, description, tags, and content, tag filtering, and newest-first sorting
 - Reading time estimates per post
 - Static routes generated for each post
 - GitHub-Flavored Markdown rendering with syntax-highlighted code blocks
 - Light and dark theme support (system-aware via `next-themes`)
 - Custom 404 page
+- `sitemap.xml` and `robots.txt` generation
+- Unit tests for post parsing, filtering, date formatting, and reading time (Vitest)
+- Design system tokens (via `impeccable`) — see [`DESIGN.md`](./DESIGN.md)
 - Open Graph and Twitter card metadata with dynamic OG image generation
 - Responsive, minimal interface styled with Tailwind CSS
 
@@ -31,13 +33,14 @@ This is a deliberately simple blog where I document what I learn, the projects I
 - [Next.js](https://nextjs.org/) 16
 - [React](https://react.dev/) 19
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS (v4)
+- [Vitest](https://vitest.dev/) for unit tests
 - Markdown, [`gray-matter`](https://github.com/jonschlinkert/gray-matter), `remark`, and rehype plugins
 - AWS deployment and operations as part of the learning journey
 
 ### SEO & metadata
 
-Each post includes canonical URLs, Open Graph cards, Twitter summaries, author attribution (`Gabriel Voliente`), and a dynamic OG image generator at `/api/og`. The homepage and blog listing also carry their own metadata.
+Each post includes canonical URLs, Open Graph cards, Twitter summaries, author attribution (`Gabriel Valiente`), and a dynamic OG image generator at `/api/og`. The blog listing carries its own metadata, and the homepage inherits metadata from the root layout.
 
 ## Getting started
 
@@ -63,9 +66,12 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Other commands
 
 ```bash
-npm run lint      # Run ESLint
-npm run build     # Create a production build
-npm run start     # Start the production server locally
+npm run lint       # Run ESLint
+npm run build      # Create a production build
+npm run start      # Start the production server locally
+npm run test       # Run the unit tests (Vitest)
+npm run test:watch # Run Vitest in watch mode
+npm run typecheck  # Type-check with tsc --noEmit
 ```
 
 ## Writing a post
@@ -87,6 +93,8 @@ description: "What I learned while building my first project."
 Write the post here using Markdown.
 ```
 
+Frontmatter is validated at build time: `title`, `date`, `tags`, and `description` are all required. Dates must be `YYYY-MM-DD`, and `tags` must be a non-empty array. Posts are sorted newest-first by date on the blog index.
+
 Existing examples include:
 
 - [Hello World: Starting My Cloud Engineer Journey](./src/posts/hello-world.md)
@@ -101,10 +109,30 @@ Existing examples include:
 src/
 ├── app/
 │   ├── page.tsx              # Home page
-│   ├── blog/page.tsx         # Post listing
-│   ├── blog/[slug]/page.tsx  # Individual post page
-│   └── components/            # Shared UI components
-└── posts/                     # Markdown blog posts
+│   ├── not-found.tsx         # Custom 404 page
+│   ├── robots.ts             # robots.txt
+│   ├── sitemap.ts            # sitemap.xml
+│   ├── layout.tsx            # Root layout (fonts, theme, nav, footer)
+│   ├── blog/
+│   │   ├── page.tsx          # Post listing
+│   │   ├── [slug]/page.tsx   # Individual post page
+│   │   └── components/
+│   │       └── post-grid.tsx # Search, tag filter, and post cards
+│   ├── api/
+│   │   └── og/route.tsx      # Dynamic OG image generator
+│   └── components/
+│       └── theme-toggle.tsx  # Light/dark toggle
+├── lib/
+│   └── posts/                # Post parsing, filtering, dates, reading time
+│       ├── index.ts
+│       ├── scan.ts
+│       ├── filter.ts
+│       ├── date.ts
+│       ├── read-time.ts
+│       ├── site-url.ts
+│       ├── types.ts
+│       └── posts.test.ts
+└── posts/                    # Markdown blog posts
 ```
 
 ## Learning and infrastructure roadmap
@@ -123,7 +151,7 @@ The AWS architecture is intentionally being developed as part of the learning pr
 
 ## Status
 
-This project is an active learning project. The application is basic by design; the content, infrastructure, and engineering practices will grow over time.
+This project is an active learning project. The application is basic by design; the content, infrastructure, and engineering practices will grow over time. It currently runs locally only — production deployment on AWS is planned but not yet implemented.
 
 ## License
 

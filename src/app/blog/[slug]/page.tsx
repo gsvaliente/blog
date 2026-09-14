@@ -69,7 +69,7 @@ export async function generateMetadata({
     title: `${title} | Cloud Engineer Journey`,
     description: description || `Read about ${title} on Cloud Engineer Journey`,
     keywords: tags,
-    authors: [{ name: "Gabriel Voliente" }],
+    authors: [{ name: "Gabriel Valiente" }],
     alternates: {
       canonical: canonicalUrl,
     },
