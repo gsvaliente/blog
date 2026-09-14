@@ -32,11 +32,16 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <header className="border-b border-border/20 py-4">
+          <header className="border-b border-border/30 py-3">
             <nav className="max-w-6xl mx-auto px-6 flex items-center justify-between font-sans">
-              <Link href="/" className="text-lg font-bold tracking-tight">
-                Cloud Engineer Journey
-              </Link>
+              <div className="flex flex-col">
+                <Link href="/" className="text-base font-bold tracking-tight text-foreground">
+                  Cloud Engineer Journey
+                </Link>
+                <p className="mt-0.5 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  A practical cloud engineering journal
+                </p>
+              </div>
               <ThemeToggle />
             </nav>
           </header>

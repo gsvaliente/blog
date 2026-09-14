@@ -46,7 +46,7 @@ export default function BlogIndexPage() {
   const posts = getPosts();
 
   return (
-    <main className="mx-auto max-w-6xl px-6 py-14 font-sans text-foreground sm:py-20">
+    <main className="mx-auto max-w-6xl px-6 py-10 font-sans text-foreground sm:py-14">
       {/* Header */}
       <header className="mb-12 max-w-2xl">
         <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-muted-foreground">
