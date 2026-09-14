@@ -1,50 +1,51 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
+import { filterPosts } from "../../../lib/posts/filter";
+import { formatPostDate } from "../../../lib/posts/date";
+import type { Post } from "../../../lib/posts/types";
 
-export type BlogPost = {
-  title: string;
-  date: string;
-  tags: string[];
-  slug: string;
-  readingTime: number;
-};
-
-export function PostGrid({ posts }: { posts: BlogPost[] }) {
+export function PostGrid({ posts }: { posts: Post[] }) {
   const [query, setQuery] = useState("");
   const [tagFilter, setTagFilter] = useState<string | null>(null);
 
-  // Filter posts
-  const filtered = useMemo(() => {
-    let results = posts;
-    if (tagFilter) {
-      results = results.filter((p) => p.tags.includes(tagFilter));
-    }
-    if (query.trim()) {
-      const lower = query.toLowerCase();
-      results = results.filter((p) => p.title.toLowerCase().includes(lower));
-    }
-    return results;
-  }, [posts, query, tagFilter]);
+  const filtered = useMemo(
+    () => filterPosts(posts, query, tagFilter ? [tagFilter] : []),
+    [posts, query, tagFilter]
+  );
 
-  // Collect all unique tags from filtered posts
-  const activeTags = useMemo(() => {
+  const allTags = useMemo(() => {
     const tags = new Set<string>();
-    for (const post of filtered) {
+    for (const post of posts) {
       for (const tag of post.tags) {
         tags.add(tag);
       }
     }
     return [...tags].sort();
-  }, [filtered]);
+  }, [posts]);
 
   const hasFilter = query.trim() !== "" || tagFilter !== null;
 
   return (
     <div className="flex flex-col gap-8">
-      {/* Tag pills — filter row */}
-      {activeTags.length > 0 && (
+      {/* Search bar */}
+      <div className="flex items-center gap-4">
+        <label htmlFor="post-search" className="sr-only">
+          Search posts
+        </label>
+        <input
+          id="post-search"
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search by title, tag, or topic…"
+          className="flex-1 border-b border-border/60 bg-transparent pb-2 pr-4 pt-1 text-base font-normal text-foreground outline-none placeholder:text-muted-foreground focus:border-foreground/60 transition-colors"
+        />
+      </div>
+
+      {/* Tag pills — full row stays visible while filtering */}
+      {allTags.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 pb-4">
           <button
             onClick={() => setTagFilter(null)}
@@ -56,7 +57,7 @@ export function PostGrid({ posts }: { posts: BlogPost[] }) {
           >
             All
           </button>
-          {activeTags.map((tag) => (
+          {allTags.map((tag) => (
             <button
               key={tag}
               onClick={() => setTagFilter(tag === tagFilter ? null : tag)}
@@ -86,7 +87,7 @@ export function PostGrid({ posts }: { posts: BlogPost[] }) {
         </p>
       )}
 
-      {/* Post grid — true 2 columns */}
+      {/* Post grid */}
       <ul
         className={`grid auto-rows-fr gap-x-8 gap-y-8 sm:grid-cols-2 ${
           hasFilter ? "mt-4" : ""
@@ -94,7 +95,7 @@ export function PostGrid({ posts }: { posts: BlogPost[] }) {
       >
         {filtered.map((post) => (
           <li key={post.slug}>
-            <PostCard post={post} />
+            <PostCard post={post} onTagSelect={setTagFilter} />
           </li>
         ))}
       </ul>
@@ -102,14 +103,19 @@ export function PostGrid({ posts }: { posts: BlogPost[] }) {
   );
 }
 
-function PostCard({ post }: { post: BlogPost }) {
+function PostCard({
+  post,
+  onTagSelect,
+}: {
+  post: Post;
+  onTagSelect: (tag: string) => void;
+}) {
   return (
     <article className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border/60 bg-foreground/[0.02] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:bg-foreground/[0.05]">
-      {/* Full-card click surface — sits above all content */}
       <Link
         href={`/blog/${post.slug}`}
         aria-label={`Read "${post.title}"`}
-        className="absolute inset-0 z-50"
+        className="absolute inset-0 z-50 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-foreground"
       />
       <div className="relative z-10 flex flex-col pointer-events-none gap-3">
         {/* Tags — pill style, interactive */}
@@ -118,10 +124,7 @@ function PostCard({ post }: { post: BlogPost }) {
             <button
               key={tag}
               type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
+              onClick={() => onTagSelect(tag)}
               className="pointer-events-auto rounded-full bg-foreground/10 px-2.5 py-0.5 text-xs font-medium text-foreground/75 transition-colors hover:bg-foreground/20"
             >
               #{tag}
@@ -130,10 +133,10 @@ function PostCard({ post }: { post: BlogPost }) {
         </div>
         {/* Meta — date + reading time */}
         <div className="flex items-center justify-between gap-4 text-xs text-muted-foreground">
-          <time dateTime={post.date}>{post.date}</time>
+          <time dateTime={post.date}>{formatPostDate(post.date)}</time>
           <span>{post.readingTime} min read</span>
         </div>
-        {/* Title — clear readable headline */}
+        {/* Title */}
         <h2 className="text-lg font-semibold leading-snug text-foreground transition-colors group-hover:text-muted-foreground">
           {post.title}
         </h2>
