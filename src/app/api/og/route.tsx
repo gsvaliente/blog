@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { NextRequest } from "next/server";
+import { formatPostDate } from "../../../lib/posts";
 
 export function generateStaticParams() {
   return [
@@ -95,11 +96,7 @@ export async function GET(request: NextRequest) {
                   color: "#9ca3af",
                 }}
               >
-                {new Date(date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
+                {formatPostDate(date)}
               </span>
             )}
             {tagList.length > 0 && (

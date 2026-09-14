@@ -10,6 +10,7 @@ import rehypeStringify from "rehype-stringify";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getReadingTime } from "../../../lib/read-time";
+import { formatPostDate } from "../../../lib/posts";
 
 const postsDirectory = path.join(process.cwd(), "src", "posts");
 
@@ -130,7 +131,7 @@ export default async function BlogPostPage({
           {title}
         </h1>
         <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-          <time dateTime={date}>{date}</time>
+          <time dateTime={date}>{formatPostDate(date)}</time>
           <span aria-hidden="true">·</span>
           <span>{post.readingTime} min read</span>
           {tags?.map((tag: string) => (
@@ -151,7 +152,7 @@ export default async function BlogPostPage({
 
       <footer className="mt-14 border-t border-border/60 pt-6">
         <p className="text-sm text-muted-foreground">
-          Originally published on {date}
+          Originally published on {formatPostDate(date)}
         </p>
       </footer>
     </article>
