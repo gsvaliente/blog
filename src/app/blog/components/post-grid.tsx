@@ -111,7 +111,7 @@ function PostCard({
   onTagSelect: (tag: string) => void;
 }) {
   return (
-    <article className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border/60 bg-foreground/[0.02] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:bg-foreground/[0.05]">
+    <article className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border/60 bg-foreground/[0.02] p-6 font-mono transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:bg-foreground/[0.05]">
       <Link
         href={`/blog/${post.slug}`}
         aria-label={`Read "${post.title}"`}
