@@ -3,7 +3,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
+  --background: #faf8f3;
   --foreground: #171717;
   --muted-foreground: #6b7280;
   --border: #e5e7eb;
@@ -33,7 +33,7 @@ body {
 
 /* Syntax-highlighted fenced code blocks in blog posts. */
 .prose pre:has(code.hljs) {
-  background: #f6f8fa;
+  background: #f3f1ea;
   border: 1px solid var(--border);
   border-radius: 0.75rem;
   padding: 1.25rem;

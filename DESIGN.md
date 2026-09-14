@@ -3,7 +3,7 @@ name: Cloud Engineer Journey
 description: A practical cloud engineering journal — clean, minimal, monochrome.
 colors:
   primary: "#171717"
-  neutral-bg: "#ffffff"
+  neutral-bg: "#faf8f3"
   neutral-muted: "#6b7280"
   neutral-border: "#e5e7eb"
   dark-bg: "#0a0a0a"
@@ -83,12 +83,12 @@ components:
 
 This is a working engineer's notebook rendered as a website — clean, intentional, and unhurried. Every element serves comprehension first; nothing competes for attention. The visual language strips away ornamentation, leaving only what helps readers absorb technical content and authors document their progress without distraction.
 
-Light mode is maximum-contrast white-on-off-white, like ink on fresh paper. Dark mode inverts into zinc charcoal on deep zinc, like a terminal session at midnight. No accent color distracts from the work. Depth comes from tonal layering — subtle background shifts, borders, and hover states rather than shadows or gradients.
+Light mode is warm ink on warm off-white, like brushed notes on cream paper. Dark mode inverts into zinc charcoal on deep zinc, like a terminal session at midnight. No accent color distracts from the work. Depth comes from tonal layering — subtle background shifts, borders, and hover states rather than shadows or gradients.
 
 The result is calm authority: it feels like someone who does real work wrote it, not someone trying to prove they can design.
 
 **Key Characteristics:**
-- Strictly monochrome — black, white, grays; no hue whatsoever
+- Near-monochrome warm neutrals — cream off-whites, beiges, and grays; no saturated hue
 - Tonal depth over decorative elevation — cards use opacity-shifted backgrounds, not drop shadows
 - Large type scales create hierarchy through size contrast alone
 - Pill-shaped tags and buttons add warmth against sharp-edged cards
@@ -105,13 +105,14 @@ A disciplined grayscale palette where value is the only variable. Contrast is hi
 
 ### Neutral
 
+- **Warm paper** (`#faf8f3` / light bg): The light-mode canvas. A subtle, warm off-white that reads as cream paper rather than stark white — enough warmth to feel hand-made, not enough to read as yellow. Keeps maximum legibility against the onyx foreground.
 - **Zinc-500** (`#6b7280` / light muted): Secondary text — dates, reading time, meta information. Low enough to recede, high enough to read comfortably. In dark mode, elevated to `#9ca3af` (zinc-400).
 - **Zinc-200** (`#e5e7eb` / light border): Subtle structural boundaries — card edges, section dividers, input fields. Thin and unobtrusive. In dark mode, tightened to `#374151` (zinc-700).
 - **Foreground ghost** (`rgba(#171717, 0.02)` / light card bg): Ultra-subtle card background on light mode — barely perceptible but creates the surface distinction needed for hover lift effects. Equivalent in dark mode uses the same pattern inverted.
 
 ### Named Rules
 
-**The Zero-Hue Rule.** No chromatic color appears in the design system except inside syntax-highlighted code blocks, which inherit the GitHub Prism palette. Any new component must justify why introducing hue is necessary; absence is the default position.
+**The Zero-Hue Rule.** No saturated chromatic color appears in the design system except inside syntax-highlighted code blocks, which inherit the GitHub Prism palette. Warm near-neutral backgrounds (beige, off-white, cream) are permitted as paper tones; any new component must justify why introducing hue is necessary; absence is the default position.
 
 ## Typography
 
@@ -184,7 +185,7 @@ A deliberate mix of sharp and curved geometry. Cards and containers use generous
 
 ### Blog Card
 - **Shape:** `rounded-2xl` (16px) with subtle border
-- **Background:** `bg-foreground/[0.02]` (ultra-light tone on white; similar in dark)
+- **Background:** `bg-foreground/[0.02]` (ultra-light tone on beige paper; similar in dark)
 - **States:** On hover — translate up 4px, border intensifies to `foreground/30`, background shifts to `foreground/[0.05]`, card title transitions from foreground to muted-foreground
 - **Structure:** Date + reading time at top, title in middle (flex-grows via `mt-auto`), tags pinned to bottom
 - **Interaction:** Entire card is clickable via an absolutely-positioned link overlay; tags are additional interactive targets
@@ -199,7 +200,7 @@ A deliberate mix of sharp and curved geometry. Cards and containers use generous
 
 ### Input Fields
 - **Shape:** `rounded-lg` (8px) with border
-- **Color:** White/invert background, colored border matching semantic token
+- **Color:** Warm off-white/invert background, colored border matching semantic token
 - **Focus:** Border transitions to `border-foreground/50` (50% opacity)
 - **Placeholder:** Muted foreground color
 - **Padding:** 8px horizontal × 8px vertical
@@ -231,7 +232,7 @@ A deliberate mix of sharp and curved geometry. Cards and containers use generous
 
 ### Code Blocks (Prose-injected)
 - **Shape:** `rounded-xl` (12px / 0.75rem) with border
-- **Light mode:** Background `#f6f8fa` (GitHub Light inline-code), border uses semantic token
+- **Light mode:** Background `#f3f1ea` (warm light gray harmonizing with the beige page), border uses semantic token
 - **Dark mode:** Background `#161b22` (GitHub Dark inline-code), border inherits dark token
 - **Padding:** 20px vertical × 20px horizontal
 - **Syntax highlighting:** Inherits GitHub Prism theme — keywords in red/orange, strings in green, numbers in blue, comments in gray (both light and dark variants)
