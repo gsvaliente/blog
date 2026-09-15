@@ -115,7 +115,7 @@ export default async function BlogPostPage({
 
   return (
     <article
-      className="mx-auto max-w-6xl px-6 py-8 font-mono text-foreground sm:py-12"
+      className="mx-auto max-w-6xl px-6 py-8 text-foreground sm:py-12"
     >
       <Link
         href="/blog"
@@ -146,7 +146,7 @@ export default async function BlogPostPage({
       </header>
 
       <div
-        className="prose dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-foreground/85 prose-strong:text-foreground prose-a:text-foreground prose-a:underline-offset-4 prose-code:text-foreground"
+        className="prose dark:prose-invert max-w-none prose-code:font-mono prose-pre:font-mono prose-headings:text-foreground prose-p:text-foreground/85 prose-strong:text-foreground prose-a:text-foreground prose-a:underline-offset-4 prose-code:text-foreground"
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 

@@ -46,7 +46,7 @@ export function PostGrid({ posts }: { posts: Post[] }) {
 
       {/* Tag pills — full row stays visible while filtering */}
       {allTags.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 pb-4">
+        <div className="flex flex-wrap items-center gap-2 pb-4 font-mono">
           <button
             onClick={() => setTagFilter(null)}
             className={`rounded-full border px-3 py-1 text-xs font-medium transition-colors ${
@@ -111,7 +111,7 @@ function PostCard({
   onTagSelect: (tag: string) => void;
 }) {
   return (
-    <article className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border/60 bg-foreground/[0.02] p-6 font-mono transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:bg-foreground/[0.05]">
+    <article className="group relative flex cursor-pointer flex-col overflow-hidden rounded-xl border border-border/60 bg-foreground/[0.02] p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:bg-foreground/[0.05]">
       <Link
         href={`/blog/${post.slug}`}
         aria-label={`Read "${post.title}"`}
@@ -125,14 +125,14 @@ function PostCard({
               key={tag}
               type="button"
               onClick={() => onTagSelect(tag)}
-              className="pointer-events-auto rounded-full bg-foreground/10 px-2.5 py-0.5 text-xs font-medium text-foreground/75 transition-colors hover:bg-foreground/20"
+              className="pointer-events-auto rounded-full bg-foreground/10 px-2.5 py-0.5 font-mono text-xs font-medium text-foreground/75 transition-colors hover:bg-foreground/20"
             >
               #{tag}
             </button>
           ))}
         </div>
         {/* Meta — date + reading time */}
-        <div className="flex items-center justify-between gap-4 text-xs text-muted-foreground">
+        <div className="flex items-center justify-between gap-4 font-mono text-xs text-muted-foreground">
           <time dateTime={post.date}>{formatPostDate(post.date)}</time>
           <span>{post.readingTime} min read</span>
         </div>
